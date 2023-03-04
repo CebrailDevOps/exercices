@@ -7,9 +7,7 @@ String entree = "";
 
 iCommand[] exercices = new iCommand[]
 {
-    new ExTableau(),
-    new ExTableau2(),
-    new ExCartes(),
+    new InteretsCumules(),
 };
 
 do
