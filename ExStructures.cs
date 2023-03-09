@@ -13,31 +13,35 @@ namespace exercices
 
         public void Execute()
         {
-            const int y = 5;
-            const int x = 5;
-            string[,] tab2Dim = new string[y, x];
-            for (int i = 0; i < y-1; i++)
+            Point?[,] points = new Point?[5, 5];
+            for (int i = 0; i < points.GetLength(0); i++)
             {
-                for (int j = 0; j < x-1; j++)
+                points[i,i] = new Point(i+1,i+1);
+            }
+            for (int i = 0;i < points.GetLength(1); i++) 
+            { 
+                for (int j = 0; j < points.GetLength(1); j++)
                 {
-                    if (i == j)
+                    if (points[i,j] is null)
                     {
-                        Coord coord = new Coord();
-                        coord.X = i+1;
-                        coord.Y = j+1;
-                        Console.WriteLine($"X : {coord.X} - Y : {coord.Y}");
+                        Console.Write(new string(' ',13));
                     }
-                    else
-                    {
-                        tab2Dim[i, j] = "\t";
-                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine("\n");
             }
         }
     }
-    public struct Coord
+    public struct Point
     {
+        public Point(int x, int y)
+        {
+            X = x; Y = y;
+        }
         public int X, Y;
+
+        public override string ToString()
+        {
+            return $"X : {X} - Y : {Y}";
+        }
     }
 }

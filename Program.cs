@@ -7,11 +7,10 @@ String entree = "";
 
 iCommand[] exercices = new iCommand[]
 {
-<<<<<<< HEAD
-    new DemoStructures(),
-=======
     new InteretsCumules(),
->>>>>>> a31c2bee1d770cfc510be588b6a7c14a44a75652
+    new ExStructures2(),
+    new ExMethodes2(),
+    new ExEnums1()
 };
 
 do
