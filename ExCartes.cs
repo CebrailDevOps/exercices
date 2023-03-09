@@ -15,8 +15,10 @@ namespace exercices
         {
             int miseHero,miseVilain,tapisHero, tapisVilain;
             int pot = 0;
+            int board = 0;
             int jetonHero = 1500;
             int jetonVilain = 1500;
+            int miseVilainTemp;
             int p = 0; // impair = Vilain au BTN ; pair = Hero au BTN
             string[] hero = { "x", "x" };
             string[] vilain = { "x", "x" };
@@ -144,6 +146,7 @@ namespace exercices
                     Console.WriteLine($"C pour call; F pour fold; R pour raise.");
                     ConsoleKeyInfo d = Console.ReadKey();
                     b = false;
+                    f = false;
                     do
                     {
                         switch (d.KeyChar)
@@ -172,31 +175,107 @@ namespace exercices
                                     Console.WriteLine("\nVous misez le reste de vos jetons donc vous êtes à tapis.");
                                     tapisHero = jetonHero;
                                     jetonHero = 0;
-                                    jetonVilain += miseVilain - jetonHero;
-                                    pot = tapisHero * 2;
+                                    jetonVilain += miseVilain-jetonHero;
+                                    pot = tapisHero*2;
                                     miseHero = 0;
                                     miseVilain = 0;
                                     b = true;
                                 }
                                 break;
                             case 'r':
+                                miseVilainTemp = miseVilain;
+                                if (board == 0 && p%2 == 0)
+                                {
+                                    miseVilain = 50;
+                                }
                                 if (jetonHero >= miseVilain*2-miseHero && miseVilain > 0)
                                 {
                                     Console.WriteLine("\nVous voulez relancer à combien?");
-                                    Console.WriteLine($"A pour {miseVilain*2} jetons, Z pour {miseVilain * 2.5}, E pour {miseVilain * 3} ou R pour All-in.");
+                                    Console.WriteLine($"A pour {miseVilain*2} jetons, Z pour {(int)(miseVilain*2.5)}, E pour {miseVilain * 3} ou R pour All-in.");
                                     ConsoleKeyInfo e = Console.ReadKey();
                                     do
                                     {
                                         switch (e.KeyChar)
                                         {
                                             case 'a':
-                                                Console.WriteLine($"\nVous misez {miseVilain * 2}.");
-                                                jetonHero -= miseVilain*2 - miseHero;
-                                                pot += miseVilain*2 - miseHero;
+                                                Console.WriteLine($"\nVous misez {miseVilain*2} jetons.");
+                                                jetonHero -= miseVilain*2-miseHero;
+                                                pot += miseVilain*2-miseHero;
+                                                miseHero = miseVilain*2;
+                                                miseVilain = miseVilainTemp;
+                                                b = true;
+                                                break;
+                                            case 'z':
+                                                if(jetonHero > miseVilain*2.5 - miseHero)
+                                                {
+                                                    Console.WriteLine($"\nVous misez {(int)(miseVilain * 2.5)} jetons.");
+                                                    jetonHero -= (int)(miseVilain*2.5)-miseHero;
+                                                    pot += (int)(miseVilain*2.5) - miseHero;
+                                                    miseHero = (int)(miseVilain * 2.5);
+                                                    miseVilain = miseVilainTemp;
+                                                    b = true;
+                                                }
+                                                else if (jetonHero == miseVilain*2.5-miseHero)
+                                                {
+                                                    Console.WriteLine($"\nVous misez {(int)(miseVilain * 2.5)} jetons et vous êtes à tapis.");
+                                                    jetonHero = 0;
+                                                    pot += (int)(miseVilain*2.5) - miseHero;
+                                                    miseHero = (int)(miseVilain * 2.5);
+                                                    miseVilain = miseVilainTemp;
+                                                    b = true;
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine($"\nVous misez {jetonHero+miseHero} jetons et vous êtes à tapis.");
+                                                    tapisHero = jetonHero;
+                                                    jetonHero = 0;
+                                                    pot += tapisHero + miseHero;
+                                                    miseHero += tapisHero;
+                                                    miseVilain = miseVilainTemp;
+                                                    b = true;
+                                                }
+                                                break;
+                                            case 'e':
+                                                if (jetonHero > miseVilain*3-miseHero)
+                                                {
+                                                    Console.WriteLine($"\nVous misez {miseVilain *3} jetons.");
+                                                    jetonHero -= miseVilain*3- miseHero;
+                                                    pot += miseVilain*3-miseHero;
+                                                    miseHero = miseVilain*3;
+                                                    miseVilain = miseVilainTemp;
+                                                    b = true;
+                                                }
+                                                else if (jetonHero == miseVilain*3-miseHero)
+                                                {
+                                                    Console.WriteLine($"\nVous misez {miseVilain*3} jetons et vous êtes à tapis.");
+                                                    jetonHero = 0;
+                                                    pot += miseVilain*3-miseHero;
+                                                    miseHero = miseVilain*3;
+                                                    miseVilain = miseVilainTemp;
+                                                    b = true;
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine($"\nVous misez {jetonHero+miseHero} jetons et vous êtes à tapis.");
+                                                    tapisHero = jetonHero;
+                                                    jetonHero = 0;
+                                                    pot += tapisHero+miseHero;
+                                                    miseHero += tapisHero;
+                                                    miseVilain = miseVilainTemp;
+                                                    b = true;
+                                                }
+                                                break;
+                                            case 'r':
+                                                Console.WriteLine($"\nVous misez {jetonHero+miseHero} jetons et vous êtes à tapis.");
+                                                tapisHero = jetonHero;
+                                                jetonHero = 0;
+                                                pot += tapisHero+miseHero;
+                                                miseHero += tapisHero;
+                                                miseVilain = miseVilainTemp;
                                                 b = true;
                                                 break;
                                         }
-                                    } while (!b) ;
+                                    } while (!b);
                                     
                                 }
                                 else if (jetonHero == miseVilain - miseHero && miseVilain > 0)
@@ -214,7 +293,7 @@ namespace exercices
                                     tapisHero = jetonHero;
                                     jetonHero = 0;
                                     jetonVilain += miseVilain - jetonHero;
-                                    pot = tapisHero * 2;
+                                    pot = tapisHero*2;
                                     miseHero = 0;
                                     miseVilain = 0;
                                     b = true;
@@ -228,7 +307,8 @@ namespace exercices
                                 break;
                         }
                     } while (!b);
-                    if (p % 2 == 0)
+
+                    if (p%2 == 0)
                     {
                         // faire les choix de Vilain au BTN
                     }
@@ -236,9 +316,8 @@ namespace exercices
                     {
                         // faire les choix de Vilain en BB
                     }
-                } while (!f);
-                f = false;
-            }while(jetonHero != 0 || jetonVilain != 0);
+                }while(!f && jetonHero != 0 && jetonVilain != 0);
+            }while(jetonHero != 0 && jetonVilain != 0);
         }
     }
 }
